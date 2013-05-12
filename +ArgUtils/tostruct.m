@@ -1,5 +1,5 @@
 function s = tostruct(varargin)
-% because MATLAB's struct constructor is a disaster
+% because MATLAB's struct API is a disaster
 
 if nargin == 1 && iscell(varargin{1})
     varargin = varargin{1};

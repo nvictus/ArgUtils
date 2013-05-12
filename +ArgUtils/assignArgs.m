@@ -6,7 +6,7 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 %       
 %   Options:
 %       Required    - cell-array of required arg names
-%       Prefix      - string
+%       Prefix      - string prefix for keyword names
 %       Expand      - boolean
 %
 %   Returns:
