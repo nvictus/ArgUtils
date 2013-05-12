@@ -1,3 +1,3 @@
-function nvpairs = unstruct(s)
+function nvlist = unstruct(s)
 
-nvpairs = reshape([fieldnames(s), struct2cell(s)]', 1,[]);
+nvlist = reshape([fieldnames(s), struct2cell(s)]', 1,[]);
