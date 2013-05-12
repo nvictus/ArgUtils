@@ -110,7 +110,7 @@ end
 % Assign keyword args
 if ~isempty(kwargs)
     if rem(length(kwargs),2)~=0
-        error('assignArgs:NameValueMismatch',...
+        error('ArgUtils:TypeError',...
               'Keyword arguments must be given as name-value pairs.');
     end
     
@@ -125,16 +125,16 @@ if ~isempty(kwargs)
             name = validatestring(kwarg, target_names);
         catch exception
             if ~ischar(kwarg)
-                error('assignArgs:InvalidKeyword',...
+                error('ArgUtils:TypeError',...
                       'Invalid keyword. Expected string, instead got %s.', class(kwargs{i}));
             else
-                error('assignArgs:KeywordNoMatch',...
+                error('ArgUtils:KeyError',...
                       'The name %s did not match any argument keywords', name);
             end
         end
 
         if assigned.contains(name)
-            error('assignArgs:DoubleAssignment',...
+            error('ArgUtils:TypeError',...
                   'Got multiple values for keyword %s', name);
         else
             target_struct.(name) = kwargs{i+1};
@@ -147,7 +147,7 @@ end
 if ~isempty(options.Required)
     for i = 1:length(options.Required)
         if ~assigned.contains(options.Required{i})
-            error('assignArgs:MissingRequirement',...
+            error('ArgUtils:TypeError',...
                   'Required argument %s is missing', options.Required{i});
         end
     end

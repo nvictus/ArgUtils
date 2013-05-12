@@ -42,10 +42,10 @@ function varargout = assignVars( defaults, inputs )
 num_inputs = length(inputs);
 num_targets = length(defaults);
 if num_inputs > num_targets
-    error('assignVars:TooManyInputs', 'More input values than assignment targets');
+    error('ArgUtils:TypeError', 'More input values than assignment targets');
 end
 if nargout > num_targets
-    error('assignVars:TooManyOutputs', 'More assignment targets than default values');
+    error('ArgUtils:TypeError', 'More assignment targets than default values');
 end
 
 varargout = defaults;
