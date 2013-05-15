@@ -1,5 +1,5 @@
 function varargout = assignVars( defaults, inputs )
-% ASSIGNARGS Assign input and default values to target variables
+% ASSIGNVARS Assign input and default values to target variables
 %   The target variables for assignment are typically the implicit parameters
 %   of a calling function that uses "varargin".
 %   
@@ -38,17 +38,18 @@ function varargout = assignVars( defaults, inputs )
 %   Author: Nezar Abdennur <nabdennur@gmail.com>
 %   Created: 2012-05-25
 
+import ArgUtils.*
 
 num_inputs = length(inputs);
 num_targets = length(defaults);
 if num_inputs > num_targets
-    error('ArgUtils:TypeError', 'More input values than assignment targets');
+    error(ArgUtils.TypeError, 'More input values than assignment targets');
 end
 if nargout > num_targets
-    error('ArgUtils:TypeError', 'More assignment targets than default values');
+    error(ArgUtils.TypeError, 'More assignment targets than default values');
 end
 
 varargout = defaults;
-idx = find(~cellfun(@isempty, inputs));
+idx = ~cellfun('isempty', inputs); %order of magnitude faster than @isempty
 varargout(idx) = inputs(idx);
 

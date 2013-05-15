@@ -81,15 +81,14 @@ for i = 1:length(args_kwargs)
     arg = args_kwargs{i};
     
     if ischar(arg)
+        % Check for prefix or look for keyword match
         if options.Prefix
-            % Check for prefix
             if hasPrefix(arg, options.Prefix);
                 % treat everything as kwargs from here on
                 kwargs = args_kwargs(i:end);
                 break;
             end
         else
-            % Look for keyword match
             name_matched = false;
             try
                 validatestring(arg, target_names);
@@ -110,7 +109,7 @@ end
 % Assign keyword args
 if ~isempty(kwargs)
     if rem(length(kwargs),2)~=0
-        error('ArgUtils:TypeError',...
+        error(ArgUtils.TypeError,...
               'Keyword arguments must be given as name-value pairs.');
     end
     
@@ -125,16 +124,16 @@ if ~isempty(kwargs)
             name = validatestring(kwarg, target_names);
         catch exception
             if ~ischar(kwarg)
-                error('ArgUtils:TypeError',...
-                      'Invalid keyword. Expected string, instead got %s.', class(kwargs{i}));
+                error(ArgUtils.TypeError,...
+                      'Invalid keyword. Expected string, instead got %s.', class(kwarg));
             else
-                error('ArgUtils:KeyError',...
-                      'The name %s did not match any argument keywords', name);
+                error(ArgUtils.KeyError,...
+                      'The name %s did not match any argument keywords', kwarg);
             end
         end
 
         if assigned.contains(name)
-            error('ArgUtils:TypeError',...
+            error(ArgUtils.TypeError,...
                   'Got multiple values for keyword %s', name);
         else
             target_struct.(name) = kwargs{i+1};
@@ -147,7 +146,7 @@ end
 if ~isempty(options.Required)
     for i = 1:length(options.Required)
         if ~assigned.contains(options.Required{i})
-            error('ArgUtils:TypeError',...
+            error(ArgUtils.TypeError,...
                   'Required argument %s is missing', options.Required{i});
         end
     end
@@ -157,7 +156,7 @@ end
 if options.Expand
     if ~nargout
         % assign variables in caller the dirty way
-        for i = 1:length(target_struct)
+        for i = 1:length(target_names)
             assignin('caller', target_names{i}, target_struct.(target_names{i}));
         end
     else
