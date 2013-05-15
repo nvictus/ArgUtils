@@ -4,11 +4,14 @@ classdef ArgUtils
     
     properties (Constant)
         VERSION = '0.1'
+        TypeError  = 'Exception:TypeError'
+        ValueError = 'Exception:ValueError'
+        KeyError   = 'Exception:KeyError'
     end
     
-    enumeration
-        REQUIRED
-        OPTIONAL
-    end
+%     enumeration
+%         REQUIRED
+%         OPTIONAL
+%     end
 end
 
