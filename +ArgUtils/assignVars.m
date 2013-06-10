@@ -8,17 +8,17 @@ function varargout = assignVars( defaults, inputs )
 %       inputs   - cell_array of input values to assign
 %
 %   Returns:
-%       cell_array containing correctly assigned values for all of the target variables
+%       comma-separated list of correctly assigned values for all of the target variables
 %
 %   Examples:
-%       args = {'alpha', 'bravo'};
-%       [x,y,z] = assignVars({1,2,3}, args);
+%       input = {'alpha', 'bravo'};
+%       [x,y,z] = assignVars({1,2,3}, input);
 %       --> x == 'alpha'
 %       --> y == 'bravo'
 %       --> z == 3
 %
-%       args = {'alpha', [], 'charlie'};
-%       [x,y,z] = assignVars({1,2,3}, args);
+%       input = {'alpha', [], 'charlie'};
+%       [x,y,z] = assignVars({1,2,3}, input);
 %       --> x == 'alpha'
 %       --> y == 2
 %       --> z == 'charlie'     
