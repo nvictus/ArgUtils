@@ -4,7 +4,7 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 %       defaults    - struct of default target assignments
 %       args_kwargs - cell-array of (args, followed by) keyword-value pairs
 %       
-%   Options:
+%   Options (keyword inputs):
 %       Required    - cell-array of required arg names
 %       Prefix      - string prefix for keyword names
 %       Expand      - boolean
@@ -15,7 +15,7 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 %           the same field structure as the defaults struct. 
 %       Expand==True:
 %           The target variables are returned individually in the same
-%           order that the fields were ordered in the defaults struct.
+%           order that the fields are arranged in the defaults struct.
 %           If nargout == 0, the values are assigned to variables in the
 %           caller workspace (the "dirty" way).
 %
@@ -62,82 +62,104 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 
 import ArgUtils.*
 
+% One special case
+% if length(args_kwargs) == 1 && ischar(args_kwargs{1}) && strcmp(args_kwargs{1}, '--synopsis')
+%     function_name = evalin('caller', 'mfilename');
+%     printSynopsis(function_name, defaults);
+% end
+
 % Parse the options
 options.Required = {};
 options.Prefix = '';
 options.Expand = false;
 if ~isempty(varargin)
-    options = updateFieldValues(options, tostruct(varargin));
+    options = assignArgs(options, varargin);
 end
 
 % Initialize target fields
 target_struct = defaults;
 target_names = fieldnames(target_struct);
 
-% Start assigning non-keyword args until we detect a keyword
-kwargs = {};
+% Keep track of assigned args
 assigned = java.util.HashSet();
-for i = 1:length(args_kwargs)
-    arg = args_kwargs{i};
-    
-    if ischar(arg)
-        % Check for prefix or look for keyword match
-        if options.Prefix
-            if hasPrefix(arg, options.Prefix);
-                % treat everything as kwargs from here on
-                kwargs = args_kwargs(i:end);
-                break;
-            end
-        else
-            name_matched = false;
-            try
-                validatestring(arg, target_names);
-                name_matched = true;
-            end
-            if name_matched
-                % treat everything as kwargs from here on
-                kwargs = args_kwargs(i:end);
-                break;
-            end
-        end
-    end
-    
-    target_struct.(target_names{i}) = arg;
-    assigned.add(target_names{i});
-end
 
-% Assign keyword args
-if ~isempty(kwargs)
-    if rem(length(kwargs),2)~=0
-        error(ArgUtils.TypeError,...
-              'Keyword arguments must be given as name-value pairs.');
-    end
+% Parse struct or cell array
+if isstruct(args_kwargs)
+    % 1) struct of keyword arguments 
     
-    for i = 1:2:length(kwargs)
-        kwarg = kwargs{i};
-        
-        if options.Prefix
-            kwarg = stripPrefix(kwarg, options.Prefix);
-        end
-        
-        try
-            name = validatestring(kwarg, target_names);
-        catch exception
-            if ~ischar(kwarg)
-                error(ArgUtils.TypeError,...
-                      'Invalid keyword. Expected string, instead got %s.', class(kwarg));
+    target_struct = updateFieldValues(target_struct, args_kwargs);
+    names = fieldnames(args_kwargs);
+    for i = 1:length(names)
+        assigned.add(names{i});
+    end
+else
+    % 2) cell array with 0 or more args followed by 0 or more keyword args 
+    %    (name-value pairs)
+    
+    % Start assigning non-keyword args until we detect a keyword
+    kwargs = {};
+    for i = 1:length(args_kwargs)
+        arg = args_kwargs{i};
+
+        if ischar(arg)
+            % Check for prefix or look for keyword match
+            if options.Prefix
+                if hasPrefix(arg, options.Prefix);
+                    % treat everything as kwargs from here on
+                    kwargs = args_kwargs(i:end);
+                    break;
+                end
             else
-                error(ArgUtils.KeyError,...
-                      'The name %s did not match any argument keywords', kwarg);
+                name_matched = false;
+                try
+                    validatestring(arg, target_names);
+                    name_matched = true;
+                end
+                if name_matched
+                    % treat everything as kwargs from here on
+                    kwargs = args_kwargs(i:end);
+                    break;
+                end
             end
         end
 
-        if assigned.contains(name)
+        target_struct.(target_names{i}) = arg;
+        assigned.add(target_names{i});
+    end
+
+    % Assign keyword args
+    if ~isempty(kwargs)
+        if rem(length(kwargs),2)~=0
             error(ArgUtils.TypeError,...
-                  'Got multiple values for keyword %s', name);
-        else
-            target_struct.(name) = kwargs{i+1};
-            assigned.add(name);
+                  'Keyword arguments must be given as name-value pairs.');
+        end
+
+        for i = 1:2:length(kwargs)
+            kwarg = kwargs{i};
+
+            if options.Prefix
+                kwarg = stripPrefix(kwarg, options.Prefix);
+            end
+
+            try
+                name = validatestring(kwarg, target_names);
+            catch e
+                if ~ischar(kwarg)
+                    error(ArgUtils.TypeError,...
+                          'Invalid keyword. Expected string, instead got %s.', class(kwarg));
+                else
+                    error(ArgUtils.KeyError,...
+                          'The name %s did not match any argument keywords', kwarg);
+                end
+            end
+
+            if assigned.contains(name)
+                error(ArgUtils.TypeError,...
+                      'Got multiple values for keyword %s', name);
+            else
+                target_struct.(name) = kwargs{i+1};
+                assigned.add(name);
+            end
         end
     end
 end
