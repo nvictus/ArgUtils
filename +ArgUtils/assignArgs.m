@@ -1,23 +1,33 @@
 function varargout = assignArgs( defaults, args_kwargs, varargin )
 %ASSIGNARGS Assign input arguments and default values to target variables
-%   Input:
+%   Keywords are matched using MATLAB's string validator, so matching is
+%   case-insensitive and abbreviated keywords are acceptable as long as
+%   they can be matched unambiguously.
+%
+%   Input (required):
 %       defaults    - struct of default target assignments
-%       args_kwargs - cell-array of (args, followed by) keyword-value pairs
+%       args_kwargs - cell-array of zero or more args followed by zero or
+%                     more keyword args (i.e., name-value pairs) 
+%                                       -or-
+%                     a struct of keyword args
 %       
-%   Options (keyword inputs):
-%       Required    - cell-array of required arg names
-%       Prefix      - string prefix for keyword names
-%       Expand      - boolean
+%   Options (accepts keywords):
+%       Expand      - boolean <false>
+%       Required    - cell-array of names of required args <none>
+%       Prefix      - prefix to identify keyword strings <none>
+%                     (only applies to cell-array input, ignored on struct 
+%                     input)
 %
 %   Returns:
-%   	Expand==False:
-%           The target variables are returned as fields of a struct with
-%           the same field structure as the defaults struct. 
-%       Expand==True:
+%   	1) if Expand==false:
+%           The target variables are returned in a struct with the same
+%           field structure as the defaults struct.
+%
+%       2) if Expand==true:
 %           The target variables are returned individually in the same
 %           order that the fields are arranged in the defaults struct.
-%           If nargout == 0, the values are assigned to variables in the
-%           caller workspace (the "dirty" way).
+%           However, if nargout == 0, the variables are assigned in the
+%           caller workspace the "dirty" way.
 %
 %   Examples:
 %       Assume the following defaults struct in the examples below
@@ -29,33 +39,33 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 %       defaults.tol = 0.001;
 %       -------------------
 %
-%       inputs = {100, 'state', 'on', 'z', 300};
-%       args = assignArgs( defaults, inputs );
-%       --> args.x == 100
-%       --> args.y == 2
-%       --> args.z == 300
-%       --> args.state == 'on'
-%       --> args.tol == 0.001
+%       >> inputs = {100, 'state', 'on', 'z', 300};
+%       >> args = assignArgs( defaults, inputs );
+%           args.x == 100
+%           args.y == 2
+%           args.z == 300
+%           args.state == 'on'
+%           args.tol == 0.001
 %
-%       inputs = {100, 200, 'tol', 0.999};
-%       [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true );
-%       --> x == 100
-%       --> y == 200
-%       --> z == 3
-%       --> state == 'off'
-%       --> tol == 0.999
+%       >> inputs = {100, 200, 'tol', 0.999};
+%       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true );
+%       	x == 100
+%       	y == 200
+%       	z == 3
+%       	state == 'off'
+%       	tol == 0.999
 %
-%       inputs = {'y', 200, 'z', 300};
-%       [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Required', {'x'});
-%       --> error: Required argument x is missing.
+%       >> inputs = {'y', 200, 'z', 300};
+%       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Required', {'x'});
+%       	Error: Required argument x is missing.
 %
-%       inputs = {'x', 'state', '-tol', 'tol', '-state', 'thinking'};
-%       [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Prefix', '-');
-%       --> x == 'x'
-%       --> y == 'state'
-%       --> z == 3
-%       --> state == 'thinking'
-%       --> tol = 'tol'
+%       >> inputs = {'x', 'state', '-tol', 'tol', '-state', 'thinking'};
+%       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Prefix', '-');
+%           x == 'x'
+%           y == 'state'
+%           z == 3
+%           state == 'thinking'
+%           tol = 'tol'
 
 %   Author: Nezar Abdennur <nabdennur@gmail.com>
 %   Created: 2012-05-25
@@ -74,7 +84,7 @@ end
 target_struct = defaults;
 target_names = fieldnames(target_struct);
 
-% Keep track of assigned args
+% Keep track of assigned args (Requires JVM!)
 assigned = java.util.HashSet();
 
 % Parse struct or cell array
