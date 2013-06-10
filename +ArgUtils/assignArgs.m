@@ -62,12 +62,6 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 
 import ArgUtils.*
 
-% One special case
-% if length(args_kwargs) == 1 && ischar(args_kwargs{1}) && strcmp(args_kwargs{1}, '--synopsis')
-%     function_name = evalin('caller', 'mfilename');
-%     printSynopsis(function_name, defaults);
-% end
-
 % Parse the options
 options.Required = {};
 options.Prefix = '';
