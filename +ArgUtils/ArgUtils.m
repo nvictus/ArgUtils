@@ -4,14 +4,12 @@ classdef ArgUtils
     
     properties (Constant)
         VERSION = '0.1'
-        TypeError  = 'Exception:TypeError'
-        ValueError = 'Exception:ValueError'
-        KeyError   = 'Exception:KeyError'
+        TypeError  = Exception.TypeError
+        ValueError = Exception.ValueError
+        KeyError   = Exception.KeyError
+        %ShowSignatureException = Exception.extend(Exception.Base, 'ArgUtils:ShowSignature')
     end
     
-%     enumeration
-%         REQUIRED
-%         OPTIONAL
-%     end
+
 end
 
