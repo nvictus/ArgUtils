@@ -31,17 +31,42 @@ end
 >> example(100, 200, 'tol', 0.999, 'z', 'charlie')
 
 x =
-  100
+   100
 
 y =
-  200
-  
+   200
+
 z =
-'charlie'
+charlie
 
 state =
-'off'
+off
 
 tol =
-  0.999
+    0.9990
+
+  
+>> args.tol = 42; args.STATE = 'scrambled'; args.x = 'eggs';
+>> example(args)
+
+x =
+eggs
+
+y =
+  2
+  
+z =
+  3
+
+state =
+scrambled
+
+tol =
+  42
+
+
+>> example('y',200, 'z',300)
+
+Error using example: 
+Required argument x is missing.
 ```
