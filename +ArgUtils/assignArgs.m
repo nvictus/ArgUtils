@@ -134,8 +134,8 @@ else
     % Assign keyword args
     if ~isempty(kwargs)
         if rem(length(kwargs),2)~=0
-            error(ArgUtils.TypeError,...
-                  'Keyword arguments must be given as name-value pairs.');
+            throwAsCaller(MException(ArgUtils.TypeError,...
+                  'Keyword arguments must be given as name-value pairs.'));
         end
 
         for i = 1:2:length(kwargs)
@@ -149,17 +149,17 @@ else
                 name = validatestring(kwarg, target_names);
             catch e
                 if ~ischar(kwarg)
-                    error(ArgUtils.TypeError,...
-                          'Invalid keyword. Expected string, instead got %s.', class(kwarg));
+                    throwAsCaller(MException(ArgUtils.TypeError,...
+                          'Invalid keyword. Expected string, instead got %s.', class(kwarg)));
                 else
-                    error(ArgUtils.KeyError,...
-                          'The name %s did not match any argument keywords', kwarg);
+                    throwAsCaller(MException(ArgUtils.KeyError,...
+                          'The name %s did not match any argument keywords', kwarg));
                 end
             end
 
             if assigned.contains(name)
-                error(ArgUtils.TypeError,...
-                      'Got multiple values for keyword %s', name);
+                throwAsCaller(MException(ArgUtils.TypeError,...
+                      'Got multiple values for keyword %s', name));
             else
                 target_struct.(name) = kwargs{i+1};
                 assigned.add(name);
@@ -172,8 +172,8 @@ end
 if ~isempty(options.Required)
     for i = 1:length(options.Required)
         if ~assigned.contains(options.Required{i})
-            error(ArgUtils.TypeError,...
-                  'Required argument %s is missing', options.Required{i});
+            throwAsCaller(MException(ArgUtils.TypeError,...
+                  'Required argument %s is missing', options.Required{i}));
         end
     end
 end
