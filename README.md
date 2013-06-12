@@ -3,12 +3,12 @@ ArgUtils
 
 Argument parsing utilities for MATLAB
 
-Particularly useful for functions that use varargin
+Particularly useful for functions that use varargin or structs of input parameters
 - Use `ArgUtils.assignVars()` to assign variables _sequentially_
-- Use `ArgUtils.assignArgs()` to assign _named_ variables. This allows using either struct inputs or providing sequences of values followed by keyword-matching name-value pairs in any order. Keywords are matched using MATLAB's string validator, so matching is case-insensitive and abbreviated keywords are acceptable as long as they can be matched unambiguously.
+- Use `ArgUtils.assignArgs()` to assign _named_ variables. This accepts either struct input or a sequence of values followed by keyword-matching name-value pairs in any order. Keywords are matched using MATLAB's string validator, so matching is case-insensitive and abbreviated keywords are acceptable as long as they can be matched unambiguously.
 
 There are also options to specify:
-- required input arguments
+- required input parameters
 - string prefixes on keywords to prevent name collisions with string values
 
 ```matlab
@@ -44,25 +44,6 @@ off
 
 tol =
     0.9990
-
-  
->> args.tol = 42; args.STATE = 'scrambled'; args.x = 'eggs';
->> example(args)
-
-x =
-eggs
-
-y =
-  2
-  
-z =
-  3
-
-state =
-scrambled
-
-tol =
-  42
 
 
 >> example('y',200, 'z',300)
