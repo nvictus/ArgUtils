@@ -10,6 +10,8 @@ test_assignArgs_expand();
 
 test_assignArgs_prefix();
 
+test_assignArgs_badInput();
+
 disp('Passed! :)');
 
 end
@@ -148,6 +150,31 @@ assert( strcmp(x,'x') &&...
         tol==0.001);
 end
 
+
+function test_assignArgs_badInput()
+import ArgUtils.*
+args.x = [];
+args.y = 2;
+args.z = 3;
+args.state = 'off';
+args.tol = 0.001;
+
+inputs = {'x',1, 'y',2, 'z'};
+assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+inputs = {'x',1, 'y',2, [1 2 3]};
+assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+inputs = {'y',200, 'z', 300, 'y', 400};
+assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+inputs = {'y',200, 'foo', 300};
+assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
+
+inputs = struct('y',200, 'foo', 300);
+assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
+
+end
 
 function assertThrows(error_id, nout, func, varargin)
 
