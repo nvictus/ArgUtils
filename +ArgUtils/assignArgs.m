@@ -1,5 +1,5 @@
 function varargout = assignArgs( defaults, args_kwargs, varargin )
-%ASSIGNARGS Assign input arguments and default values to target variables
+%ASSIGNARGS Assign input and default values to named target variables
 %   Keywords are matched using MATLAB's string validator, so matching is
 %   case-insensitive and abbreviated keywords are acceptable as long as
 %   they can be matched unambiguously.
