@@ -53,6 +53,6 @@ if nargout > num_targets
 end
 
 varargout = defaults;
-idx = ~cellfun('isempty', inputs); %order of magnitude faster than @isempty
+idx = ~cellfun('isempty', inputs); %order of magnitude faster than @isempty (see comments in http://blogs.mathworks.com/loren/2009/05/05/nice-way-to-set-function-defaults/)
 varargout(idx) = inputs(idx);
 
