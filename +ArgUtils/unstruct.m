@@ -1,8 +1,7 @@
 function nvlist = unstruct(s)
-% because struct2cell only returns values
-%   Unpack a struct into a name-value cell array.
-%   Designed to make structs and cell arrays interchangeable through the 
-%   reciprocal relationship:
+% Unpack a struct into a name-value cell array. (struct2cell only returns values)
+%   Designed to make scalar structs and cell arrays interchangeable through
+%   the reciprocal relationship:
 %       --> nvlist = unstruct(tostruct(nvlist)) -or- unstruct(tostruct(nvlist{:}))
 %       --> s      = tostruct(unstruct(s));
 
