@@ -109,18 +109,15 @@ inputs = {'x', 1, 'tol',0};
 args = assignArgs(args, inputs, 'Require',{'x'});
 assert(args.x == 1 && args.tol ==0 && args.size==inf);
 
-% ensure proper bookkeeping when inputs are not perfect matches
+% ensure proper bookkeeping of assigned args when inputs are not perfect matches
 inputs = {'X', 1, 'tol',0};
-args = assignArgs(args, inputs, 'Require',{'x'});
-assert(args.x == 1 && args.tol ==0 && args.size==inf);
+assertNotThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs, 'Require', {'x'});
 
 inputs = {'x', 1, 't',0};
-args = assignArgs(args, inputs, 'Require',{'tol'});
-assert(args.x == 1 && args.tol ==0 && args.size==inf);
+assertNotThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs, 'Require', {'tol'});
 
 inputs = struct('X', 1, 'tol',0);
-args = assignArgs(args, inputs, 'Require',{'x'});
-assert(args.x == 1 && args.tol ==0 && args.size==inf);
+assertNotThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs, 'Require', {'x'});
 
 end
 
@@ -159,6 +156,17 @@ try
     [out{1:nout}] = feval(func, varargin{:});
 catch err
     assert(strcmp(err.identifier, error_id));
+end
+
+end
+
+function assertNotThrows(error_id, nout, func, varargin)
+
+out = cell(nout,1);
+try
+    [out{1:nout}] = feval(func, varargin{:});
+catch err
+    assert(~strcmp(err.identifier, error_id));
 end
 
 end
