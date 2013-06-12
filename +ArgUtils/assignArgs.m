@@ -90,11 +90,10 @@ assigned = java.util.HashSet();
 % Parse struct or cell array
 if isstruct(args_kwargs)
     % 1) struct of keyword arguments 
-    
-    target_struct = updateFieldValues(target_struct, args_kwargs);
-    names = fieldnames(args_kwargs);
-    for i = 1:length(names)
-        assigned.add(names{i});
+    try
+        target_struct = updateFieldValues(target_struct, args_kwargs, assigned);
+    catch e
+        throwAsCaller(e);
     end
 else
     % 2) cell array with 0 or more args followed by 0 or more keyword args 

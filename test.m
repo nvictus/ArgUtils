@@ -109,6 +109,19 @@ inputs = {'x', 1, 'tol',0};
 args = assignArgs(args, inputs, 'Require',{'x'});
 assert(args.x == 1 && args.tol ==0 && args.size==inf);
 
+% ensure proper bookkeeping when inputs are not perfect matches
+inputs = {'X', 1, 'tol',0};
+args = assignArgs(args, inputs, 'Require',{'x'});
+assert(args.x == 1 && args.tol ==0 && args.size==inf);
+
+inputs = {'x', 1, 't',0};
+args = assignArgs(args, inputs, 'Require',{'tol'});
+assert(args.x == 1 && args.tol ==0 && args.size==inf);
+
+inputs = struct('X', 1, 'tol',0);
+args = assignArgs(args, inputs, 'Require',{'x'});
+assert(args.x == 1 && args.tol ==0 && args.size==inf);
+
 end
 
 
