@@ -5,7 +5,7 @@ Argument parsing utilities for MATLAB
 
 Particularly useful for functions that use varargin or structs of input parameters
 - Use `ArgUtils.assignVars()` to assign variables _sequentially_
-- Use `ArgUtils.assignArgs()` to assign _named_ variables. This accepts either struct input or a sequence of values followed by keyword-matching name-value pairs in any order. Keywords are matched using MATLAB's string validator, so matching is case-insensitive and abbreviated keywords are acceptable as long as they can be matched unambiguously.
+- Use `ArgUtils.assignArgs()` to assign _named_ variables. This accepts either struct input or cell-array input containing a sequence of values followed by keyword-matching name-value pairs in any order. Keywords are matched using MATLAB's string validator, so matching is case-insensitive and abbreviated keywords are acceptable as long as they can be matched unambiguously.
 
 There are also options to specify:
 - required input parameters
