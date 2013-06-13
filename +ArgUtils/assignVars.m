@@ -46,7 +46,7 @@ import ArgUtils.*
 num_inputs = length(inputs);
 num_targets = length(defaults);
 if num_inputs > num_targets
-    error(ArgUtils.TypeError, 'More input values than assignment targets');
+    error(ArgUtils.TypeError, 'More input values than default values');
 end
 if nargout > num_targets
     error(ArgUtils.TypeError, 'More assignment targets than default values');
