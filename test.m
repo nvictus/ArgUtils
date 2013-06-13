@@ -91,6 +91,14 @@ assert(x==5 && tol==99);
 inputs = struct('x',5, 'size',10);
 [x,tol] = assignArgs(args, inputs, 'expand', true);
 assert(x==5 && tol==99);
+
+inputs = {1,100,-inf};
+[x,tol,size] = assignArgs(args, inputs, 'Expand', true);
+assert(x==1 && tol==100 && size==-inf);
+
+inputs = {'x',1, 'tol',100, 'size',-inf};
+[x,tol,size] = assignArgs(args, inputs, 'Expand', true);
+assert(x==1 && tol==100 && size==-inf);
 end
 
 
@@ -187,10 +195,6 @@ args.size = inf;
 inputs = {};
 [x,tol,size] = assignArgs(args, inputs, 'Expand', true);
 assert(x==0 && tol==99 && size==inf);
-
-inputs = {1,100,-inf};
-[x,tol,size] = assignArgs(args, inputs, 'Expand', true);
-assert(x==1 && tol==100 && size==-inf);
 
 inputs = {1,100,-inf, 10};
 assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
