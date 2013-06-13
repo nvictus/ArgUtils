@@ -202,8 +202,17 @@ inputs = {};
 [x,tol,size] = assignArgs(args, inputs, 'Expand', true);
 assert(x==0 && tol==99 && size==inf);
 
+% too many inputs
 inputs = {1,100,-inf, 10};
 assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+% too many outputs (lhs singleton)
+inputs = {1, 100, -inf};
+assertThrows(ArgUtils.TypeError, 3, @assignArgs, args, inputs);
+
+% too many outputs (lhs expanded)
+inputs = {1, 100, -inf};
+assertThrows('MATLAB:needMoreRhsOutputs', 4, @assignArgs, args, inputs, 'Expand', true);
 
 end
 

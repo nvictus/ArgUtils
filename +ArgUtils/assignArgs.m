@@ -194,6 +194,9 @@ if options.Expand
         target_vars = struct2cell(target_struct);
         [varargout{1:nargout}] = target_vars{:};
     end
+elseif nargout > 1
+    error(ArgUtils.TypeError,...
+        'Too many outputs. Use the ''Expand'' option to return assigned variables individually');
 else
     % return target variables as fields of a struct
     varargout{1} = target_struct;
