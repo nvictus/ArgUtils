@@ -94,7 +94,11 @@ if isstruct(args_kwargs)
     try
         target_struct = updateFieldValues(target_struct, args_kwargs, assigned);
     catch e
-        throwAsCaller(e);
+        if strcmp(e.identifier, ArgUtils.KeyError)
+            throwAsCaller(e);
+        else
+            rethrow(e);
+        end
     end
 else
     % 2) cell array with 0 or more args followed by 0 or more keyword args 
