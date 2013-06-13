@@ -49,6 +49,12 @@ inputs = {1, 2, []};
 [x,y,z] = assignVars({'a','b','c'}, inputs);
 assert(x==1 && y==2 && z=='c');
 
+inputs = {1, 2, 3};
+assertThrows(ArgUtils.TypeError, 4, @assignVars, {'a','b','c'}, inputs);
+
+inputs = {1, 2, 3, 4};
+assertThrows(ArgUtils.TypeError, 3, @assignVars, {'a','b','c'}, inputs);
+
 end
 
 
@@ -205,21 +211,25 @@ end
 function assertThrows(error_id, nout, func, varargin)
 
 out = cell(nout,1);
+iscaught = false;
 try
     [out{1:nout}] = feval(func, varargin{:});
 catch err
-    assert(strcmp(err.identifier, error_id));
+    iscaught = strcmp(err.identifier, error_id);
 end
+assert(iscaught);
 
 end
 
 function assertNotThrows(error_id, nout, func, varargin)
 
 out = cell(nout,1);
+iscaught = false;
 try
     [out{1:nout}] = feval(func, varargin{:});
 catch err
-    assert(~strcmp(err.identifier, error_id));
+    iscaught = strcmp(err.identifier, error_id);
 end
+assert(~iscaught);
 
 end
