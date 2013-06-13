@@ -195,7 +195,7 @@ if options.Expand
         [varargout{1:nargout}] = target_vars{:};
     end
 else
-    % return target variables as fields of a stuct
+    % return target variables as fields of a struct
     varargout{1} = target_struct;
 end
 
