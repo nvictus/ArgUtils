@@ -83,6 +83,7 @@ end
 % Initialize target fields
 target_struct = defaults;
 target_names = fieldnames(target_struct);
+num_targets = length(target_names);
 
 % Keep track of assigned args (Requires JVM!)
 assigned = java.util.HashSet();
@@ -125,7 +126,11 @@ else
                 end
             end
         end
-
+        
+        if i > num_targets
+            throwAsCaller(MException(ArgUtils.TypeError, ...
+                'Too many input arguments.'));
+        end
         target_struct.(target_names{i}) = arg;
         assigned.add(target_names{i});
     end

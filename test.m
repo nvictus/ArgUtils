@@ -12,6 +12,8 @@ test_assignArgs_prefix();
 
 test_assignArgs_badInput();
 
+test_assignArgs_edgeCases();
+
 disp('Passed! :)');
 
 end
@@ -175,6 +177,26 @@ inputs = struct('y',200, 'foo', 300);
 assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
 
 end
+
+function test_assignArgs_edgeCases()
+import ArgUtils.*
+args.x = 0;
+args.tol = 99;
+args.size = inf;
+
+inputs = {};
+[x,tol,size] = assignArgs(args, inputs, 'Expand', true);
+assert(x==0 && tol==99 && size==inf);
+
+inputs = {1,100,-inf};
+[x,tol,size] = assignArgs(args, inputs, 'Expand', true);
+assert(x==1 && tol==100 && size==-inf);
+
+inputs = {1,100,-inf, 10};
+assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+end
+
 
 function assertThrows(error_id, nout, func, varargin)
 
