@@ -84,6 +84,9 @@ default.query = 'cats';
 ```matlab
 >> example3 -url www.github.com -query ArgUtils
 ```
+```matlab
+>> example3 -q url -u example.com
+```
 
 --
 
