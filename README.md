@@ -75,7 +75,7 @@ options = ArgUtils.assignArgs( default, options )
 ...
 ```
 ```matlab
->> opts = struct('flav', 'chocolate');
+>> opts.flav = 'chocolate';
 >> example2('nezar', 3, opts);
 ```
 --
