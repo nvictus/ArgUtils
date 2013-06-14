@@ -47,7 +47,7 @@ tol =
     0.9990
 
 
->> example('y',200, 'z',300) %oops! x is a required arg...
+>> example('y',200, 'z',300) %oops! we said x is a required arg...
 
 Error using example: 
 Required argument x is missing.
