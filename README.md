@@ -29,7 +29,7 @@ defaults.tol = 0.001;
 ...
 ```
 ```matlab
->> example(100, 200, 'tol', 0.999, 'z', 'zulu')
+>> example(100, 200, 'tol', 0.999, 'z', 'zulu') %args followed by kwargs, python-style!
 
 x =
    100
