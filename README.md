@@ -74,6 +74,10 @@ default.cherry_on_top = true;
 options = ArgUtils.assignArgs( default, options )
 ...
 ```
+```matlab
+>> opts = struct('flav', 'chocolate');
+>> example2('nezar', 3, opts);
+```
 --
 
 Worried about string inputs clashing with argument names? Set a prefix for name keywords.
