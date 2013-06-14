@@ -54,7 +54,7 @@ Required argument x is missing.
 ```
 --
 
-Parse an options struct, and get additional toppings!
+Parse an options struct, and get additional toppings...free!
 ```matlab
 function example2(name, num_scoops, options)
 
@@ -71,7 +71,7 @@ options = ArgUtils.assignArgs( default, options )
 --
 
 Worried about string inputs clashing with argument names? Set a prefix for name keywords.
-As a bonus, your function will now accept switches in command mode! Because you're such a hacker.
+As a bonus, your function will now accept switches in command mode! You hacker, you...
 ```matlab
 function example3(varargin)
 
