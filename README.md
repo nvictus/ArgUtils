@@ -13,7 +13,7 @@ There are also options to specify:
 
 Examples
 --------
-Parse your `varargin` like a boss!
+Parse your `varargin`, like a boss!
 ```matlab
 function example(varargin)
 import ArgUtils.*
@@ -54,7 +54,7 @@ Required argument x is missing.
 ```
 --
 
-Parse an options struct, and get free toppings!
+Parse an options struct, and get additional toppings!
 ```matlab
 function example2(name, num_scoops, options)
 
@@ -70,7 +70,8 @@ options = ArgUtils.assignArgs( default, options )
 ```
 --
 
-Make a function that accepts command-line-style switches.
+Worried about string inputs clashing with argument names? Set a prefix for name keywords.
+As a bonus, your function will now accept switches in command mode! Because you're such a hacker.
 ```matlab
 function example3(varargin)
 
