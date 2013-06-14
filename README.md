@@ -64,7 +64,7 @@ Parse an options struct, and get additional toppings...free!
 ```matlab
 function example2(name, num_scoops, options)
 
-default.size = 'large';
+default.cone_size = 'large';
 default.flavor = 'vanilla';
 default.sprinkles = true;
 default.whipped_cream = true;
@@ -76,7 +76,16 @@ options = ArgUtils.assignArgs( default, options )
 ```
 ```matlab
 >> opts.flav = 'chocolate';
->> example2('nezar', 3, opts);
+>> example2('nezar', 3, opts)
+
+options =
+
+        cone_size: 'large'
+           flavor: 'chocolate'
+        sprinkles: 1
+    whipped_cream: 1
+            syrup: 1
+    cherry_on_top: 1
 ```
 --
 
