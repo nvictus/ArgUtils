@@ -29,7 +29,7 @@ defaults.tol = 0.001;
 ...
 ```
 ```matlab
->> example(100, 200, 'tol', 0.999, 'z', 'charlie')
+>> example(100, 200, 'tol', 0.999, 'z', 'zulu')
 
 x =
    100
@@ -38,7 +38,7 @@ y =
    200
 
 z =
-charlie
+zulu
 
 state =
 off
