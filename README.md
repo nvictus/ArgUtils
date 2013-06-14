@@ -47,10 +47,16 @@ tol =
     0.9990
 
 
->> example('y',200, 'z',300)
+>> example('y',200, 'z',300) %oops! x is a required arg...
 
 Error using example: 
 Required argument x is missing.
+
+
+>> example('x',100, 'y',200, 300) %that's a no-no!
+
+Error using example:
+Keyword arguments must be given as name-value pairs.
 ```
 --
 
