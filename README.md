@@ -77,7 +77,7 @@ options = ArgUtils.assignArgs( default, options )
 --
 
 Worried about string inputs clashing with argument names? Set a prefix for name keywords.
-As a bonus, your function will now accept switches in command mode! You hacker, you...
+As a bonus, your function now accepts "switches" in command mode! You hacker, you...
 ```matlab
 function example3(varargin)
 
