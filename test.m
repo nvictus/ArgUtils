@@ -198,21 +198,40 @@ args.x = 0;
 args.tol = 99;
 args.size = inf;
 
+% no inputs
 inputs = {};
 [x,tol,size] = assignArgs(args, inputs, 'Expand', true);
 assert(x==0 && tol==99 && size==inf);
 
+% no outputs
+clearvars x tol size
+inputs = {1, 2, 3};
+assignArgs(args, inputs);
+assert(~logical(exist('x','var')));
+assignArgs(args, inputs, 'Expand', true);
+assert(logical(exist('x','var')));
+
 % too many inputs
-inputs = {1,100,-inf, 10};
+inputs = {1, 100, -inf, 10};
 assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
 
-% too many outputs (rhs singleton)
+% too many outputs (rhs returns singleton)
 inputs = {1, 100, -inf};
 assertThrows(ArgUtils.TypeError, 3, @assignArgs, args, inputs);
 
-% too many outputs (rhs expanded)
+% too many outputs (rhs returns expanded)
 inputs = {1, 100, -inf};
 assertThrows('MATLAB:needMoreRhsOutputs', 4, @assignArgs, args, inputs, 'Expand', true);
+
+% no defaults (for whatever reason...)
+inputs = {};
+assertNotThrows(ArgUtils.TypeError, 1, @assignArgs, struct([]), inputs);
+assertNotThrows(ArgUtils.TypeError, 0, @assignArgs, struct([]), inputs, 'Expand', true);
+out = assignArgs(struct([]), inputs);
+assert(isstruct(out) && isempty(out));
+out = {};
+[out{:}] = assignArgs(struct([]), inputs, 'Expand', true);
+assert(isempty(out));
 
 end
 
@@ -230,9 +249,9 @@ assert(iscaught);
 
 end
 
-function assertNotThrows(error_id, nout, func, varargin)
+function out = assertNotThrows(error_id, nout, func, varargin)
 
-out = cell(nout,1);
+out = cell(1,nout);
 iscaught = false;
 try
     [out{1:nout}] = feval(func, varargin{:});
