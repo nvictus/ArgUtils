@@ -4,7 +4,7 @@ classdef ArgUtils
     %   Could cause name clashing problems with package name?
     
     properties (Constant)
-        VERSION = '0.1'
+        VERSION = '1.0'
 
         % error "types" inspired by python standard lib
         TypeError  = 'Exception:StandardError:TypeError' %Exception.TypeError
