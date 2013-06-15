@@ -29,7 +29,7 @@ defaults.tol = 0.001;
 ...
 ```
 ```matlab
->> example(100, 200, 'tol', 0.999, 'z', 'zulu')
+>> example(100, 200, 'tol', 0.999, 'z', 'zulu') %args followed by kwargs, python-style!
 
 x =
    100
@@ -47,7 +47,7 @@ tol =
     0.9990
 
 
->> example('y',200, 'z',300) %oops! x is a required arg...
+>> example('y',200, 'z',300) %oops! we said x is a required arg...
 
 Error using example: 
 Required argument x is missing.
@@ -64,7 +64,7 @@ Parse an options struct, and get additional toppings...free!
 ```matlab
 function example2(name, num_scoops, options)
 
-default.size = 'large';
+default.cone_size = 'large';
 default.flavor = 'vanilla';
 default.sprinkles = true;
 default.whipped_cream = true;
@@ -73,6 +73,19 @@ default.cherry_on_top = true;
 
 options = ArgUtils.assignArgs( default, options )
 ...
+```
+```matlab
+>> opts.flav = 'chocolate';
+>> example2('nezar', 3, opts)
+
+options =
+
+        cone_size: 'large'
+           flavor: 'chocolate'
+        sprinkles: 1
+    whipped_cream: 1
+            syrup: 1
+    cherry_on_top: 1
 ```
 --
 
