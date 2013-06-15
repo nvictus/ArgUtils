@@ -187,18 +187,22 @@ if ~isempty(options.Required)
 end
 
 % Output
+nout = nargout;
 if options.Expand
-    if ~nargout
+    if ~nout
         % assign variables in caller the dirty way
         for i = 1:length(target_names)
             assignin('caller', target_names{i}, target_struct.(target_names{i}));
         end
+    elseif nout > num_targets
+        error(ArgUtils.TypeError,...
+            'Too many outputs. More assignment targets than default values.');
     else
         % return target values individually
         target_vars = struct2cell(target_struct);
         [varargout{1:nargout}] = target_vars{:};
     end
-elseif nargout > 1
+elseif nout > 1
     error(ArgUtils.TypeError,...
         'Too many outputs. Use the ''Expand'' option to return assigned variables individually');
 else

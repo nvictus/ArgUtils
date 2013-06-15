@@ -221,7 +221,7 @@ assertThrows(ArgUtils.TypeError, 3, @assignArgs, args, inputs);
 
 % too many outputs (rhs returns expanded)
 inputs = {1, 100, -inf};
-assertThrows('MATLAB:needMoreRhsOutputs', 4, @assignArgs, args, inputs, 'Expand', true);
+assertThrows(ArgUtils.TypeError, 4, @assignArgs, args, inputs, 'Expand', true);
 
 % no defaults (for whatever reason...)
 inputs = {};
