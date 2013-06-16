@@ -1,7 +1,6 @@
 classdef ArgUtils
     %ARGUTILS 
     %   Somewhere to store constants...
-    %   Could cause name clashing problems with package name?
     
     properties (Constant)
         VERSION = '1.0'
