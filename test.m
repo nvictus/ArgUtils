@@ -171,6 +171,7 @@ out = assignArgs( args, inputs, 'Prefix', '--');
 assert( strcmp(out.x,'a') &&...
         out.y==3 );
 assertNotThrows('MATLAB:badsubscript', 1, @assignArgs, args, inputs);
+
 end
 
 
@@ -240,6 +241,12 @@ out = {};
 [out{:}] = assignArgs(struct([]), inputs, 'Expand', true);
 assert(isempty(out));
 
+% empty keyword
+inputs = {'x', 1, '', 3};
+assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
+
+inputs = {'-',3};
+assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs, 'Prefix', '-');
 end
 
 
