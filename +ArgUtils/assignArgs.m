@@ -111,20 +111,14 @@ else
 
         if ischar(arg)
             % Check for prefix or look for keyword match
+            % If found, treat everything as kwargs from here on
             if options.Prefix
-                if startsWith(arg, options.Prefix);
-                    % treat everything as kwargs from here on
+                if startsWith(arg, options.Prefix)
                     kwargs = args_kwargs(i:end);
                     break;
                 end
             else
-                name_matched = false;
-                try
-                    validatestring(arg, target_names);
-                    name_matched = true;
-                end
-                if name_matched
-                    % treat everything as kwargs from here on
+                if nameDoesMatch(arg, target_names)
                     kwargs = args_kwargs(i:end);
                     break;
                 end
@@ -135,6 +129,7 @@ else
             throwAsCaller(MException(ArgUtils.TypeError, ...
                 'Too many input arguments.'));
         end
+        
         target_struct.(target_names{i}) = arg;
         assigned.add(target_names{i});
     end
