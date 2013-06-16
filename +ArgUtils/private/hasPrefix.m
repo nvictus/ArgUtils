@@ -1,5 +1,11 @@
 function tf = hasPrefix(str, prefix)
 
-tf = strcmp(str(1:length(prefix)), prefix);
+k = length(prefix);
+n = length(str);
+if k < n
+    tf = strcmp(str(1:k), prefix);
+else
+    tf = false;
+end
 
 end

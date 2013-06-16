@@ -164,6 +164,13 @@ assert( strcmp(x,'x') &&...
         strcmp(z,'tol') &&...
         strcmp(state,'thinking') &&...
         tol==0.001);
+
+% input string shorter than prefix
+inputs = {'a', 3};
+out = assignArgs( args, inputs, 'Prefix', '--');
+assert( strcmp(out.x,'a') &&...
+        out.y==3 );
+assertNotThrows('MATLAB:badsubscript', 1, @assignArgs, args, inputs);
 end
 
 
@@ -190,6 +197,18 @@ assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
 inputs = struct('y',200, 'foo', 300);
 assertThrows(ArgUtils.KeyError, 1, @assignArgs, args, inputs);
 
+% too many inputs
+inputs = {100, 200, 300, 'on', 0.999, 100};
+assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
+
+% too many outputs (rhs returns singleton)
+inputs = {100, 200, 300, 'on', 0.999};
+assertThrows(ArgUtils.TypeError, 5, @assignArgs, args, inputs);
+
+% too many outputs (rhs returns expanded)
+inputs = {100, 200, 300};
+assertThrows(ArgUtils.TypeError, 6, @assignArgs, args, inputs, 'Expand', true);
+
 end
 
 function test_assignArgs_edgeCases()
@@ -210,18 +229,6 @@ assignArgs(args, inputs);
 assert(~logical(exist('x','var')));
 assignArgs(args, inputs, 'Expand', true);
 assert(logical(exist('x','var')));
-
-% too many inputs
-inputs = {1, 100, -inf, 10};
-assertThrows(ArgUtils.TypeError, 1, @assignArgs, args, inputs);
-
-% too many outputs (rhs returns singleton)
-inputs = {1, 100, -inf};
-assertThrows(ArgUtils.TypeError, 3, @assignArgs, args, inputs);
-
-% too many outputs (rhs returns expanded)
-inputs = {1, 100, -inf};
-assertThrows(ArgUtils.TypeError, 4, @assignArgs, args, inputs, 'Expand', true);
 
 % no defaults (for whatever reason...)
 inputs = {};
