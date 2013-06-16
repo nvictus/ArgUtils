@@ -234,9 +234,10 @@ assert(logical(exist('x','var')));
 % no defaults (for whatever reason...)
 inputs = {};
 assertNotThrows(ArgUtils.TypeError, 1, @assignArgs, struct([]), inputs);
-assertNotThrows(ArgUtils.TypeError, 0, @assignArgs, struct([]), inputs, 'Expand', true);
 out = assignArgs(struct([]), inputs);
 assert(isstruct(out) && isempty(out));
+
+assertNotThrows(ArgUtils.TypeError, 0, @assignArgs, struct([]), inputs, 'Expand', true);
 out = {};
 [out{:}] = assignArgs(struct([]), inputs, 'Expand', true);
 assert(isempty(out));
