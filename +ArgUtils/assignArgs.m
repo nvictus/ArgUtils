@@ -149,20 +149,18 @@ else
         for i = 1:2:length(kwargs)
             kwarg = kwargs{i};
 
-            if options.Prefix
+            if ~ischar(kwarg)
+                throwAsCaller(MException(ArgUtils.TypeError,...
+                    'Invalid keyword. Expected string, instead got %s.', class(kwarg)));                
+            elseif options.Prefix
                 kwarg = stripPrefix(kwarg, options.Prefix);
             end
 
             try
                 name = validatestring(kwarg, target_names);
             catch e
-                if ~ischar(kwarg)
-                    throwAsCaller(MException(ArgUtils.TypeError,...
-                          'Invalid keyword. Expected string, instead got %s.', class(kwarg)));
-                else
-                    throwAsCaller(MException(ArgUtils.KeyError,...
-                          'The name %s did not match any argument keywords', kwarg));
-                end
+                throwAsCaller(MException(ArgUtils.KeyError,...
+                    'The name %s did not match any argument keywords', kwarg));
             end
 
             if assigned.contains(name)
