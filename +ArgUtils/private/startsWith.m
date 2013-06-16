@@ -1,4 +1,4 @@
-function tf = hasPrefix(str, prefix)
+function tf = startsWith(str, prefix)
 
 k = length(prefix);
 n = length(str);

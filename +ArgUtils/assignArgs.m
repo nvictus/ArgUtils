@@ -112,7 +112,7 @@ else
         if ischar(arg)
             % Check for prefix or look for keyword match
             if options.Prefix
-                if hasPrefix(arg, options.Prefix);
+                if startsWith(arg, options.Prefix);
                     % treat everything as kwargs from here on
                     kwargs = args_kwargs(i:end);
                     break;
