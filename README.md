@@ -109,7 +109,7 @@ default.query = 'cats';
 
 --
 
-For simple sequential assignment (following the convention of the common "~exist or isempty" idiom to assign defaults), you can parse `varargin` with `assignVars()`.
+For simple sequential assignment, you can parse `varargin` with `assignVars()`. It emulates the common "~exist or isempty" idiom to assign defaults.
 ```matlab
 function example4(varargin)
 [a,b,c] = ArgUtils.assignVars({1, 2, 3}, varargin)
