@@ -49,15 +49,15 @@ function varargout = assignArgs( defaults, args_kwargs, varargin )
 %
 %       >> inputs = {100, 200, 'tol', 0.999};
 %       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true );
-%       	x == 100
-%       	y == 200
-%       	z == 3
-%       	state == 'off'
-%       	tol == 0.999
+%           x == 100
+%           y == 200
+%           z == 3
+%           state == 'off'
+%           tol == 0.999
 %
 %       >> inputs = {'y', 200, 'z', 300};
 %       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Required', {'x'});
-%       	Error: Required argument x is missing.
+%           Error: Required argument x is missing.
 %
 %       >> inputs = {'x', 'state', '-tol', 'tol', '-state', 'thinking'};
 %       >> [x,y,z,state,tol] = assignArgs( defaults, inputs, 'Expand', true, 'Prefix', '-');
