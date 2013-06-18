@@ -3,7 +3,7 @@ classdef ArgUtils
     %   Somewhere to store constants...
     
     properties (Constant)
-        VERSION = '1.0'
+        VERSION = '1.1'
 
         % error "types" inspired by python standard lib
         TypeError  = 'Exception:StandardError:TypeError' %Exception.TypeError
