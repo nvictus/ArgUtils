@@ -14,7 +14,7 @@ function s = tostruct(varargin)
 %              s.b=={2}
 %              s.c=={3,4,5}
 %
-%    Compare these to what struct() does!
+%    Compare these to what struct() does! (exercise for the reader...:P)
 
 if nargin == 1 && iscell(varargin{1})
     varargin = varargin{1};
